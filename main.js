@@ -5,6 +5,7 @@ const tbody=document.getElementById('tbody')
 fetch('https://donor-server.herokuapp.com/donors')
   .then(response => response.json())
   .then(data =>{
+    document.getElementById('total').innerHTML=data.length
    // document.getElementById('loading').style.display='none'
      for(one of data.reverse() ){
 
