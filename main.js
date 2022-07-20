@@ -1,8 +1,11 @@
+
+
 const tbody=document.getElementById('tbody')
 
 fetch('https://donor-server.herokuapp.com/donors')
   .then(response => response.json())
   .then(data =>{
+   // document.getElementById('loading').style.display='none'
      for(one of data.reverse() ){
 
 // try date 
@@ -13,18 +16,30 @@ let difference =newDate.getTime() -date_2.getTime()
 
 let totalDays=Math.ceil(difference/(1000*3600*24))
 
+if(one.date==""){
+  one.date='রক্ত দেয়া হয়নি'
+}
 
         const tr=document.createElement('tr')
         tr.innerHTML=`
        
         <td data-label="নাম">${one.name} </td>
-        <td data-label="রক্তের গ্রুপ">${one.blood}</td>
+        <td id="group-name" data-label="রক্তের গ্রুপ">${one.blood.toUpperCase()}</td>
         <td data-label="ঠিকানা">${one.address} </td>
-        <td data-label="মোবাইল">${one.phone}</td>
-        <td data-label="সর্বশেষ রক্তদানের তারিখ">${one.date}</td>
-        <td data-label="অতিবাহিত হয়েছে">${Math.abs(totalDays)}</td>
+        <td data-label="মোবাইল"> 
+        <a href="tel:${one.phone}">${one.phone}</a>
+
+        
+        
+        </td>
+        <td data-label="সর্বশেষ রক্তদানের তারিখ" >${one.date} ${" "}</td>
+        <td data-label="অতিবাহিত হয়েছে">${Math.abs(totalDays)} দিন</td>
         <div id="action"> 
-        <td><img onclick='editBtnClick()'  src='images/edit.svg' width='20' height='20'/> <img src='images/delete.svg' onclick="deleteBtnClick('${one._id}')" width='20' height='20'/></td>
+        
+        <td>
+
+        
+        <img src='images/delete.svg' onclick="deleteBtnClick('${one._id}')" width='20' height='20'/></td>
         
         <div/>
         
@@ -38,27 +53,6 @@ let totalDays=Math.ceil(difference/(1000*3600*24))
 
 
 
-function myFunction() {
-    // Declare variables
-    var input, filter, table, tr, td, i, txtValue;
-    input = document.getElementById("myInput");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("myTable");
-    tr = table.getElementsByTagName("tr");
-  
-    // Loop through all table rows, and hide those who don't match the search query
-    for (i = 0; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("td")[0];
-      if (td) {
-        txtValue = td.textContent || td.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          tr[i].style.display = "";
-        } else {
-          tr[i].style.display = "none";
-        }
-      }
-    }
-  }
 
 
   // open modal 
@@ -144,3 +138,46 @@ const date=document.getElementById('donation-date').value
     }
     // alert(item)
   }
+  
+  
+  
+  
+
+  
+  (function(document) {
+    'use strict';
+
+    var TableFilter = (function(myArray) {
+      var search_input;
+
+      function _onInputSearch(e) {
+        search_input = e.target;
+        var tables = document.getElementsByClassName(search_input.getAttribute('data-table'));
+        myArray.forEach.call(tables, function(table) {
+          myArray.forEach.call(table.tBodies, function(tbody) {
+            myArray.forEach.call(tbody.rows, function(row) {
+              var text_content = row.textContent.toLowerCase();
+              var search_val = search_input.value.toLowerCase();
+              row.style.display = text_content.indexOf(search_val) > -1 ? '' : 'none';
+            });
+          });
+        });
+      }
+
+      return {
+        init: function() {
+          var inputs = document.getElementsByClassName('search-input');
+          myArray.forEach.call(inputs, function(input) {
+            input.oninput = _onInputSearch;
+          });
+        }
+      };
+    })(Array.prototype);
+
+    document.addEventListener('readystatechange', function() {
+      if (document.readyState === 'complete') {
+        TableFilter.init();
+      }
+    });
+
+  })(document);

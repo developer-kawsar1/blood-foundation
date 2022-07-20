@@ -6,18 +6,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blood app </title> 
     <link rel="stylesheet" href="style.css"> 
+    <style>
+     .loading{
+       position: absolute;
+     
+       left: 50%;
+       top: 50%;
+       transform: translate(-50%,-50%);
+       display: flex;
+       flex-direction: column;
+       
+     }
+    .loading button{
+      border: none;
+      padding: 10px;
+      color: #fff;
+      background: rebeccapurple;
+    }
+     
+    .logo{
+      border-radius: 50%;
+      animation: rotation 8s infinite linear;
+      
+    }
+    
+    @keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+    </style>
    
 </head>
 <body>
+  
+  <div class="loading" id="loading">
+    <img class="logo" src="/images/logo.jpg" width="100" alt="" onclick="window.location.reload()">
+   
+  </div>
        
-<h2>jibor rokkha blood foundation</h2>
+<h2 class="name-title">জীবন রক্ষা ব্লাড ফাউন্ডেশন</h2>
     <div class="input-box">
-      <input type="search" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+            <input type="search" placeholder="নাম,  রক্তের গ্রুপ,  ঠিকানা লিখে সার্চ করুন..."  class="form-control search-input" data-table="customers-list"/>
     </div>
 
     <div class="table-container">
      
-     <table class='table' id="myTable">
+        <table class="table table-striped mt32 customers-list" id="myTable">
+          
        <thead>
          <tr>
          
@@ -54,7 +93,8 @@
 
     </div>
     <div class="modal-content">
-      <p>this is the text inside the modal</p>
+      <p>ডোনারের তথ্য লিখুন</p> 
+      <br>
       <form onsubmit="event.preventDefault();">
         <div class="form-group">
           <label for="name">Name</label>
@@ -84,7 +124,7 @@
         </div>
         <div class="form-group">
           <label for="phone">Phone</label>
-          <input type="text" placeholder="write donor phone" id="phone">
+          <input type="number" placeholder="write donor phone" id="phone">
 
 
         </div>
